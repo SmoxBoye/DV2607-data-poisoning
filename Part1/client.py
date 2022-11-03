@@ -109,20 +109,8 @@ def launch_attack():  # Implement this
 
     # <START ATTACK CODE>
 
-    # APPLY LABEL FLIP ATTACK tp cancel out original data --> Expected AUC = 50%
-    train_data["default payment next month"] = train_data[
-        "default payment next month"
-    ].apply(lambda x: 1 if x == 0 else 0)
-
-    # DUPLICATE ATTACK DATA to introduce a negative bias in the data
-    train_data = pd.concat([train_data, train_data])
-    # poison_data = dict(
-    #    zip(train_data.columns, [range(10000) for _ in train_data.columns[:-1]])
-    # )
-
-    # poison_data["default payment next month"] = [0 for _ in range(10000)]
-    # poison_dataframe = pd.DataFrame(poison_data)
-    # train_data = pd.concat([train_data, poison_dataframe])
+    train_data = label_flip_bias_attack(train_data)
+    
     print(train_data)
 
     # <END ATTACK CODE, leave code below unchanged>
@@ -133,6 +121,18 @@ def launch_attack():  # Implement this
     # Launch the attack
     print("Launching attack, please wait...")
     submit_data(payload)
+
+def label_flip_bias_attack(data: pd.DataFrame) -> pd.DataFrame:
+    data["default payment next month"] = data[
+        "default payment next month"
+    ].apply(lambda x: 1 if x == 0 else 0)
+
+    # DUPLICATE ATTACK DATA to introduce a negative bias in the data
+    data = pd.concat([data, data])
+    return data
+
+def variable_injection_modified(data: pd.DataFrame, percentage: float) -> pd.DataFrame:
+    return data.sample(frac=percentage)
 
 
 @timeit
