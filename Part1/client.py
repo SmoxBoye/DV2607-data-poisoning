@@ -123,6 +123,7 @@ def launch_attack():  # Implement this
     submit_data(payload)
 
 def label_flip_bias_attack(data: pd.DataFrame) -> pd.DataFrame:
+    # FLIP LABELS OF THE TRAINING DATA: Expected AUC --> 50%
     data["default payment next month"] = data[
         "default payment next month"
     ].apply(lambda x: 1 if x == 0 else 0)
