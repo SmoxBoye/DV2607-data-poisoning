@@ -114,6 +114,7 @@ def launch_attack():  # Implement this
         "default payment next month"
     ].apply(lambda x: 1 if x == 0 else 0)
 
+    # DUPLICATE ATTACK DATA to introduce a negative bias in the data
     train_data = pd.concat([train_data, train_data])
     # poison_data = dict(
     #    zip(train_data.columns, [range(10000) for _ in train_data.columns[:-1]])
