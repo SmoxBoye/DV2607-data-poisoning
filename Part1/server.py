@@ -1,15 +1,20 @@
-from utils.ml_utils import get_model_report, reset_model_and_data, store_data, train_and_save_model
+from utils.ml_utils import (
+    get_model_report,
+    reset_model_and_data,
+    store_data,
+    train_and_save_model,
+)
 from flask import Flask, request
 
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return 'Server is running!'
+    return "Server is running!"
 
 
-@app.route('/report')
+@app.route("/report")
 def model_report():
     response = {}
     try:
@@ -20,7 +25,7 @@ def model_report():
     return response
 
 
-@app.route('/add', methods=['POST'])
+@app.route("/add", methods=["POST"])
 def add_data():
     response = {"successful": 0, "failed": 0}
     try:
@@ -35,7 +40,7 @@ def add_data():
     return response
 
 
-@app.route('/reset', methods=['POST'])
+@app.route("/reset", methods=["POST"])
 def reset():
     response = "Failed to reset model and/or data.."
 
@@ -48,7 +53,7 @@ def reset():
     return response
 
 
-@app.route('/train', methods=['POST'])
+@app.route("/train", methods=["POST"])
 def train_model():
     response = "Model training failed.."
 
@@ -59,6 +64,7 @@ def train_model():
         print(e)
 
     return response
+
 
 if __name__ == "__main__":
     app.run()

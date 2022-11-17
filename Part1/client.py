@@ -110,7 +110,7 @@ def launch_attack():  # Implement this
     # <START ATTACK CODE>
 
     train_data = label_flip_bias_attack(train_data)
-    
+
     print(train_data)
 
     # <END ATTACK CODE, leave code below unchanged>
@@ -122,14 +122,16 @@ def launch_attack():  # Implement this
     print("Launching attack, please wait...")
     submit_data(payload)
 
+
 def label_flip_bias_attack(data: pd.DataFrame) -> pd.DataFrame:
-    data["default payment next month"] = data[
-        "default payment next month"
-    ].apply(lambda x: 1 if x == 0 else 0)
+    data["default payment next month"] = data["default payment next month"].apply(
+        lambda x: 1 if x == 0 else 0
+    )
 
     # DUPLICATE ATTACK DATA to introduce a negative bias in the data
     data = pd.concat([data, data])
     return data
+
 
 def variable_injection_modified(data: pd.DataFrame, percentage: float) -> pd.DataFrame:
     return data.sample(frac=percentage)
